@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.example.taskclass.databinding.ActivityLoginBinding
 
 class loginActivity : AppCompatActivity() {
@@ -15,16 +16,26 @@ class loginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.emailEt.editText?.addTextChangedListener {
+            binding.emailEt.error = null
+        }
+        binding.passEt.editText?.addTextChangedListener {
+            binding.passEt.error = null
+        }
 
         binding.loginBt.setOnClickListener {
             val email = binding.emailEt.editText?.text?.toString();
             val password = binding.passEt.editText?.text?.toString();
 
             if (TextUtils.isEmpty(binding.emailEt.editText?.text.toString().trim())) {
-                binding.emailEt.setError("Name cannot be empty")
+                binding.emailEt.setError("Email can not be empty")
+                return@setOnClickListener
+
             }
             if (TextUtils.isEmpty(binding.passEt.editText?.text.toString().trim())) {
-                binding.passEt.setError("Email cannot be empty")
+                binding.passEt.setError("Password can not be empty")
+                return@setOnClickListener
+
             }
 
                 else {

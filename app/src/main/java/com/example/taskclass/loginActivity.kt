@@ -68,7 +68,7 @@ class loginActivity : AppCompatActivity() {
                             Log.w("TAG", "signInWithEmail:failure", task.exception)
                             Toast.makeText(
                                 baseContext,
-                                "Authentication failed.",
+                                "User not found",
                                 Toast.LENGTH_SHORT,
                             ).show()
 //                            updateUI(null)
@@ -96,7 +96,7 @@ class loginActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         Toast.makeText(applicationContext, "LogIn successful", Toast.LENGTH_SHORT).show();
 
-        val intent=Intent(applicationContext,DashBoard::class.java);
+        val intent=Intent(applicationContext,OptionActivity::class.java);
         startActivity(intent);
     }
     public override fun onStart() {

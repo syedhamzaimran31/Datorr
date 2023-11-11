@@ -12,10 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskClass"
         tools:targetApi="31">
-        <activity android:name=".loginActivity"
-            android:exported="false">
-
-        </activity>
+        <activity
+            android:name=".DashBoard"
+            android:exported="false" />
+        <activity
+            android:name=".loginActivity"
+            android:exported="false"></activity>
         <activity
             android:name=".signUpActivity"
             android:exported="false" />

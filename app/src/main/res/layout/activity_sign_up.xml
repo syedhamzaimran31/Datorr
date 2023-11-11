@@ -24,18 +24,21 @@
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spin_kit"
-        style="@style/SpinKitView.Large.ThreeBounce"
+        style="@style/SpinKitView.Large.WanderingCubes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        android:visibility="invisible"
-        />
+        app:layout_constraintVertical_bias="0.499" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameEt"
@@ -116,6 +119,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="596dp"
+        android:layout_marginEnd="40dp"
         android:backgroundTint="#B403A9F4"
         android:text="Sign Up"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,12 +131,12 @@
         android:id="@+id/signUpTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="664dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="660dp"
         android:text="Already registered"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

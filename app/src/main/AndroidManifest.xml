@@ -13,19 +13,25 @@
         android:theme="@style/Theme.TaskClass"
         tools:targetApi="31">
         <activity
-            android:name=".OptionActivity"
+            android:name=".Actvities.FemaleActivity"
             android:exported="false" />
         <activity
-            android:name=".DashBoard"
+            android:name=".Actvities.MaleActivity"
             android:exported="false" />
         <activity
-            android:name=".loginActivity"
+            android:name=".Actvities.OptionActivity"
             android:exported="false" />
         <activity
-            android:name=".signUpActivity"
+            android:name=".Actvities.DashBoard"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Actvities.loginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Actvities.signUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Actvities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

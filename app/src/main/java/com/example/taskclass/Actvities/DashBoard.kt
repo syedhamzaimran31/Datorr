@@ -1,11 +1,10 @@
-package com.example.taskclass
+package com.example.taskclass.Actvities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.taskclass.databinding.ActivityDashBoardBinding
-import com.example.taskclass.databinding.ActivityLoginBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth

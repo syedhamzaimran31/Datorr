@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">TaskClass</string>
+    <string name="selected_item">Selected item:</string>
+
+    <string-array name="Languages">
+        <item>Select City:</item>
+        <item>Karachi</item>
+        <item>Lahore</item>
+        <item>Islamabad</item>
+        <item>Pindi</item>
+        <item>Hyderabad</item>
+    </string-array>
+
+    <string name="checked">checked</string>
+    <string name="unchecked">unchecked</string>
 </resources>

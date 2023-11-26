@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("kotlin-kapt")
 }
 
 android {
@@ -36,10 +37,16 @@ dependencies {
     implementation("com.github.ybq:Android-SpinKit:1.4.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.github.ybq:Android-SpinKit:1.4.0")
+    implementation ("androidx.room:room-runtime:2.2.4")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
+    kapt ("androidx.room:room-compiler:2.2.4")
+    implementation ("androidx.room:room-ktx:2.2.5")
+
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-auth:22.2.0")
     implementation("com.google.firebase:firebase-crashlytics:18.5.1")

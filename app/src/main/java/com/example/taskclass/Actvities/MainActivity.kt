@@ -1,4 +1,4 @@
-package com.example.taskclass
+package com.example.taskclass.Actvities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

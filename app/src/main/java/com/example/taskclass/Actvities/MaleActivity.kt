@@ -29,13 +29,14 @@ class MaleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMaleBinding
     private lateinit var database: AppDatabase
     private var selected_Age: String? = null
+    private var age_room: Boolean? = null
     private var date_Room: String? = null
     private var id: Int? = null
     private var location_room: String? = null
-    private var photoRoom:String?=null
+    private var photoRoom: String? = null
     lateinit var pickDateBtn: Button
     lateinit var selectedDateTV: TextView
-    private var name:String?=null
+    private var name: String? = null
     lateinit var clickImageId: CircleImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,18 +73,21 @@ class MaleActivity : AppCompatActivity() {
             val radio: RadioButton = findViewById(checkedId)
             selected_Age = radio.text.toString();
             Toast.makeText(
-                applicationContext, " On checked change :" + selected_Age, Toast.LENGTH_SHORT
+                applicationContext,
+                " On checked change :" + selected_Age + age_room,
+                Toast.LENGTH_SHORT
             ).show()
         })
         // Get radio group selected status and text using button click event
         binding.submitBtn.setOnClickListener {
             // Get the checked radio button id from radio group
 
-            id= binding.ageRadioGroup.checkedRadioButtonId;
+            id = binding.ageRadioGroup.checkedRadioButtonId;
             if (id != -1) { // If any radio button checked from radio group
                 // Get the instance of radio button using id
                 val radio: RadioButton = findViewById(id!!)
                 selected_Age = radio.text.toString();
+
                 Toast.makeText(
                     applicationContext, "On button click :" + selected_Age, Toast.LENGTH_SHORT
                 ).show()
@@ -102,8 +106,13 @@ class MaleActivity : AppCompatActivity() {
             // Get the clicked radio button instance
             val radio: RadioButton = findViewById(binding.ageRadioGroup.checkedRadioButtonId)
             selected_Age = radio.text.toString();
+            if (selected_Age.equals("Yes")) {
+                age_room = true
+            } else {
+                age_room = false
+            }
             Toast.makeText(
-                applicationContext, "On click : ${selected_Age}", Toast.LENGTH_SHORT
+                applicationContext, "On click : ${selected_Age +age_room}", Toast.LENGTH_SHORT
             ).show()
         }
         binding.submitBtn.setOnClickListener {
@@ -131,23 +140,22 @@ class MaleActivity : AppCompatActivity() {
                 binding.passEt.setError("Password cannot be empty")
                 return@setOnClickListener
             }
-            if(id == -1 ){
+            if (id == -1) {
                 Toast.makeText(
                     applicationContext,
                     "Radio Field is empty",
                     Toast.LENGTH_SHORT
                 ).show()
 
-            }
-            else {
+            } else {
                 val maleData = MaleActivityData(
                     firstName = name,
                     lastName = lastName,
                     email = email,
                     password = password,
-                    isAbove_18 = selected_Age,
+                    isAbove_18 =age_room,
                     ageBirth = date_Room,
-                    location_room=location_room,
+                    location_room = location_room,
                     photoRoom = photoRoom
                 )
                 // Insert the data into the database
@@ -173,7 +181,7 @@ class MaleActivity : AppCompatActivity() {
                 override fun onItemSelected(
                     parent: AdapterView<*>, view: View, position: Int, id: Long
                 ) {
-                    location_room=languages[position].toString();
+                    location_room = languages[position].toString();
                     Toast.makeText(
                         this@MaleActivity,
                         getString(R.string.selected_item) + " " + "" + languages[position],
@@ -203,7 +211,7 @@ class MaleActivity : AppCompatActivity() {
 
                     selectedDateTV.text =
                         (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
-                    date_Room=(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year);
+                    date_Room = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year);
                 },
 
                 year, month, day
@@ -224,7 +232,7 @@ class MaleActivity : AppCompatActivity() {
                     val photo = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
                     clickImageId.setImageBitmap(photo)
 //                    photoRoom= MediaStore.Images.Media.getBitmap(contentResolver, imageUri).toString();
-                      photoRoom=imageUri.toString();
+                    photoRoom = imageUri.toString();
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.e("MaleActivity", "Error loading image from gallery")

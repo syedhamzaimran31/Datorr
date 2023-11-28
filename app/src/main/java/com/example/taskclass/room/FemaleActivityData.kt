@@ -10,10 +10,15 @@ data class FemaleActivityData(
     val firstName: String?,
     val lastName: String?,
     val email: String?,
-    val password: String?
+    val password: String?,
+    val isAbove_18:String?,
+    val ageBirth:String?,
+    val location_room:String?,
+    val photoRoom:String?
+
 ) {
 
   @Ignore
-  constructor(firstName: String?, lastName: String?, email: String?, password: String?) :
-            this(0, firstName, lastName, email, password)
+  constructor(firstName: String?, lastName: String?, email: String?, password: String?,isAbove_18: String?,ageBirth: String?,location_room: String?,photoRoom: String?) :
+            this(0, firstName, lastName, email, password,isAbove_18,ageBirth,location_room,photoRoom)
 }

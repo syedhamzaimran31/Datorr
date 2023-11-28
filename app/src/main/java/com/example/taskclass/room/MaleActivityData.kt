@@ -11,7 +11,7 @@ data class MaleActivityData(
     val lastName: String?,
     val email: String?,
     val password: String?,
-    val isAbove_18:String?,
+    val isAbove_18: Boolean?,
     val ageBirth:String?,
     val location_room:String?,
     val photoRoom:String?

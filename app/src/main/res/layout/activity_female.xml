@@ -249,13 +249,7 @@
                 android:textStyle="italic"
                 app:cornerRadius="10dp"></com.google.android.material.button.MaterialButton>
 
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/maintoolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="56dp"-->
-<!--                android:background="#3F51B5">-->
 
-<!--            </androidx.appcompat.widget.Toolbar>-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

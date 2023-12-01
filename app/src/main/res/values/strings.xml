@@ -13,4 +13,5 @@
 
     <string name="checked">checked</string>
     <string name="unchecked">unchecked</string>
+    <string name="LogOut">Logout</string>
 </resources>

@@ -23,6 +23,10 @@ import com.example.taskclass.room.DatabaseBuilder
 import com.example.taskclass.room.MaleActivityData
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.Calendar
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MaleActivity : AppCompatActivity() {
 
@@ -38,6 +42,11 @@ class MaleActivity : AppCompatActivity() {
     lateinit var selectedDateTV: TextView
     private var name: String? = null
     lateinit var clickImageId: CircleImageView
+
+    companion object {
+        private const val REQUEST_APN_PERMISSION = 123
+        private const val pic_id = 123
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -105,14 +114,10 @@ class MaleActivity : AppCompatActivity() {
         fun radio_button_click(view: View) {
             // Get the clicked radio button instance
             val radio: RadioButton = findViewById(binding.ageRadioGroup.checkedRadioButtonId)
-            selected_Age = radio.text.toString();
-            if (selected_Age.equals("Yes")) {
-                age_room = true
-            } else {
-                age_room = false
-            }
+            selected_Age = radio.text.toString()
+            age_room = selected_Age.equals("Yes")
             Toast.makeText(
-                applicationContext, "On click : ${selected_Age +age_room}", Toast.LENGTH_SHORT
+                applicationContext, "On click : $selected_Age $age_room", Toast.LENGTH_SHORT
             ).show()
         }
         binding.submitBtn.setOnClickListener {
@@ -169,8 +174,8 @@ class MaleActivity : AppCompatActivity() {
         }
 
         val languages = resources.getStringArray(R.array.Languages)
-
         val spinner = findViewById<Spinner>(R.id.spinner)
+
         if (spinner != null) {
             val adapter = ArrayAdapter(
                 this, android.R.layout.simple_spinner_item, languages
@@ -199,8 +204,6 @@ class MaleActivity : AppCompatActivity() {
         pickDateBtn.setOnClickListener {
 
             val c = Calendar.getInstance()
-
-
             val year = c.get(Calendar.YEAR)
             val month = c.get(Calendar.MONTH)
             val day = c.get(Calendar.DAY_OF_MONTH)
@@ -211,7 +214,7 @@ class MaleActivity : AppCompatActivity() {
 
                     selectedDateTV.text =
                         (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
-                    date_Room = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year);
+                    date_Room = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
                 },
 
                 year, month, day
@@ -242,9 +245,25 @@ class MaleActivity : AppCompatActivity() {
             }
         }
     }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_APN_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-    companion object {
-        // Define the pic id
-        private const val pic_id = 123
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "Permission denied. Cannot access APN settings.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
     }
+
+
 }

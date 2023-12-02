@@ -27,6 +27,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.taskclass.room.FemaleActivityData
 
 class MaleActivity : AppCompatActivity() {
 
@@ -153,6 +154,7 @@ class MaleActivity : AppCompatActivity() {
                 ).show()
 
             } else {
+
                 val maleData = MaleActivityData(
                     firstName = name,
                     lastName = lastName,
@@ -163,9 +165,24 @@ class MaleActivity : AppCompatActivity() {
                     location_room = location_room,
                     photoRoom = photoRoom
                 )
-                // Insert the data into the database
-                Log.d("MaleActivity", "Inserting: $maleData")
+
+//                val userListMale: List<MaleActivityData> = database.UserDao().getAllMales();
+//                val userListFemale: List<FemaleActivityData> = database.UserDao().getAllFemales();
+//
+//                if (userListMale.isNotEmpty() || userListFemale.isNotEmpty()) {
+//                    val i = Intent(applicationContext, formActivity::class.java);
+//                    startActivity(i);
+//                    finish();
+//                } else {
+//                    Toast.makeText(applicationContext,"Fill at least one form",Toast.LENGTH_SHORT).show();
+//                }
+
+
                 database.UserDao().insertMaleData(maleData)
+
+                val i=Intent(applicationContext,OptionActivity::class.java);
+                startActivity(i);
+                finish();
 
 
             }

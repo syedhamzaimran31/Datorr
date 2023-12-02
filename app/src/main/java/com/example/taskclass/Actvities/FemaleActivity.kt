@@ -142,6 +142,9 @@ class FemaleActivity : AppCompatActivity() {
 
                 database.UserDao().insertFemaleData(femaleData)
 
+                val i = Intent(applicationContext, formActivity::class.java);
+                startActivity(i);
+                finish();
 
             }
 

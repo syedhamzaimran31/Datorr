@@ -10,6 +10,7 @@ import com.example.taskclass.Adapters.CustomAdapter
 import com.example.taskclass.R
 import com.example.taskclass.databinding.ActivityOptionBinding
 import com.example.taskclass.models.ItemsViewModel
+import com.example.taskclass.room.AppDatabase
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -18,11 +19,12 @@ class OptionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOptionBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: AppDatabase
 
     companion object {
-        const val SHARED_PREFS = "shared_prefs"
-        const val EMAIL_KEY = "email_key"
-        const val PASSWORD_KEY = "password_key"
+            const val SHARED_PREFS = "shared_prefs"
+            const val EMAIL_KEY = "email_key"
+            const val PASSWORD_KEY = "password_key"
     }
 
     private lateinit var sharedpreferences: SharedPreferences
@@ -42,14 +44,22 @@ class OptionActivity : AppCompatActivity() {
 
         // This loop will create 20 Views containing
         // the image with the count of view
-        for (i in 1..2) {
+        for (i in 1..3) {
 
-            val genderImage = if (i % 2 == 0) R.drawable.male_ else R.drawable.female__
-            val genderText = if (i % 2 == 0) "Male" else "Female"
+            val genderImage = when (i) {
+                1 -> {R.drawable.male_}
+                2 -> {R.drawable.female__}
+                else -> {R.drawable.user}
+            }
+            val genderText = when (i) {
+                1 -> {"Male"}
+                2 -> {"Female"}
+                else -> {"Advanced "}
+            }
             data.add(ItemsViewModel(genderImage, genderText));
         }
-
-        val adapter = CustomAdapter(data);
+        database = AppDatabase.getInstance(applicationContext)
+        val adapter = CustomAdapter(data, database);
 
         binding.recyclerview.adapter = adapter;
 

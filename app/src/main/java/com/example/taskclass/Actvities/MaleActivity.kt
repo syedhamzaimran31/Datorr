@@ -27,7 +27,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.taskclass.room.FemaleActivityData
+import kotlinx.coroutines.launch
 
 class MaleActivity : AppCompatActivity() {
 
@@ -176,14 +178,14 @@ class MaleActivity : AppCompatActivity() {
 //                } else {
 //                    Toast.makeText(applicationContext,"Fill at least one form",Toast.LENGTH_SHORT).show();
 //                }
+                lifecycleScope.launch {
 
+                    database.UserDao().insertMaleData(maleData)
 
-                database.UserDao().insertMaleData(maleData)
-
-                val i=Intent(applicationContext,OptionActivity::class.java);
-                startActivity(i);
-                finish();
-
+                    val i = Intent(applicationContext, OptionActivity::class.java);
+                    startActivity(i);
+                    finish();
+                }
 
             }
 
@@ -204,13 +206,14 @@ class MaleActivity : AppCompatActivity() {
                     parent: AdapterView<*>, view: View, position: Int, id: Long
                 ) {
                     location_room = languages[position].toString();
-                    Toast.makeText(
-                        this@MaleActivity,
-                        getString(R.string.selected_item) + " " + "" + languages[position],
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (position != 0) {
+                        Toast.makeText(
+                            this@MaleActivity,
+                            getString(R.string.selected_item) + " " + "" + languages[position],
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>) {
 
                 }

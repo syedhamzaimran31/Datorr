@@ -58,7 +58,8 @@ class OptionActivity : AppCompatActivity() {
             }
             data.add(ItemsViewModel(genderImage, genderText));
         }
-        database = AppDatabase.getInstance(applicationContext)
+
+        database = AppDatabase.getInstance(this)
         val adapter = CustomAdapter(data, database);
 
         binding.recyclerview.adapter = adapter;

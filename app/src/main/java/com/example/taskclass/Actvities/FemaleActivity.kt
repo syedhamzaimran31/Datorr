@@ -15,12 +15,14 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.taskclass.R
 import com.example.taskclass.databinding.ActivityFemaleBinding
 import com.example.taskclass.room.AppDatabase
 import com.example.taskclass.room.DatabaseBuilder
 import com.example.taskclass.room.FemaleActivityData
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class FemaleActivity : AppCompatActivity() {
@@ -82,9 +84,7 @@ class FemaleActivity : AppCompatActivity() {
             }
         }
 
-        // Get the selected radio button text using radio button on click listener
         fun radio_button_click(view: View) {
-            // Get the clicked radio button instance
             val radio: RadioButton = findViewById(binding.ageRadioGroup.checkedRadioButtonId)
             selected_Age = radio.text.toString();
             Toast.makeText(
@@ -139,13 +139,13 @@ class FemaleActivity : AppCompatActivity() {
                     photoRoom = photoRoom
 
                 )
+                lifecycleScope.launch {
+                    database.UserDao().insertFemaleData(femaleData)
 
-                database.UserDao().insertFemaleData(femaleData)
-
-                val i = Intent(applicationContext, formActivity::class.java);
-                startActivity(i);
-                finish();
-
+                    val i = Intent(applicationContext, OptionActivity::class.java);
+                    startActivity(i);
+                    finish();
+                }
             }
 
 
@@ -168,13 +168,14 @@ class FemaleActivity : AppCompatActivity() {
                     view: View, position: Int, id: Long
                 ) {
                     location_room = languages[position].toString();
-                    Toast.makeText(
-                        this@FemaleActivity,
-                        getString(R.string.selected_item) + " " +
-                                "" + languages[position], Toast.LENGTH_SHORT
-                    ).show()
+                    if (position != 0) {
+                        Toast.makeText(
+                            this@FemaleActivity,
+                            getString(R.string.selected_item) + " " +
+                                    "" + languages[position], Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>) {
 
                 }
@@ -229,7 +230,6 @@ class FemaleActivity : AppCompatActivity() {
     }
 
     companion object {
-        // Define the pic id
         private const val pic_id = 123
     }
 }

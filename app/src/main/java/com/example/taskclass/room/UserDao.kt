@@ -7,13 +7,13 @@ import androidx.room.Query
 @Dao
 interface UserDao {
     @Insert
-    fun insertMaleData(MaleData: MaleActivityData);
+    suspend fun insertMaleData(MaleData: MaleActivityData);
 
     @Insert
-    fun insertFemaleData(FemaleData: FemaleActivityData);
-    @Query("SELECT * FROM maleactivitydata")
-    fun getAllMales(): List<MaleActivityData>;
+    suspend fun insertFemaleData(FemaleData: FemaleActivityData);
+    @Query("SELECT * FROM MaleActivityData")
+    suspend fun getAllMales(): List<MaleActivityData>;
 
-    @Query("SELECT * FROM femaleactivitydata")
-    fun getAllFemales(): List<FemaleActivityData>
+    @Query("SELECT * FROM FemaleActivityData")
+     suspend fun getAllFemales(): List<FemaleActivityData>
 }

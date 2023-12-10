@@ -140,7 +140,7 @@ class FemaleActivity : AppCompatActivity() {
 
                 )
                 lifecycleScope.launch {
-                    database.UserDao().insertFemaleData(femaleData)
+                    database.userDao().insertFemaleData(femaleData)
 
                     val i = Intent(applicationContext, OptionActivity::class.java);
                     startActivity(i);

@@ -2,9 +2,8 @@ package com.example.taskclass.Actvities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.taskclass.R
+import com.example.taskclass.Adapters.MyPagerAdapter
 import com.example.taskclass.databinding.ActivityAdvanceBinding
-import com.example.taskclass.databinding.ActivityFormBinding
 
 class AdvanceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdvanceBinding
@@ -13,5 +12,12 @@ class AdvanceActivity : AppCompatActivity() {
 
         binding = ActivityAdvanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-}
+
+
+        val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
+        binding.viewpagerMain.adapter= fragmentAdapter
+
+        binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
+
+    }
 }

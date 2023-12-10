@@ -168,19 +168,9 @@ class MaleActivity : AppCompatActivity() {
                     photoRoom = photoRoom
                 )
 
-//                val userListMale: List<MaleActivityData> = database.UserDao().getAllMales();
-//                val userListFemale: List<FemaleActivityData> = database.UserDao().getAllFemales();
-//
-//                if (userListMale.isNotEmpty() || userListFemale.isNotEmpty()) {
-//                    val i = Intent(applicationContext, formActivity::class.java);
-//                    startActivity(i);
-//                    finish();
-//                } else {
-//                    Toast.makeText(applicationContext,"Fill at least one form",Toast.LENGTH_SHORT).show();
-//                }
                 lifecycleScope.launch {
 
-                    database.UserDao().insertMaleData(maleData)
+                    database.userDao().insertMaleData(maleData)
 
                     val i = Intent(applicationContext, OptionActivity::class.java);
                     startActivity(i);

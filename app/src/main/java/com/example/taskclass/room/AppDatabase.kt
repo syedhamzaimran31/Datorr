@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [MaleActivityData::class,FemaleActivityData::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun UserDao(): UserDao
+    abstract fun userDao(): UserDao
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null

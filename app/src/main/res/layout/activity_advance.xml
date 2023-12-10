@@ -6,14 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".Actvities.AdvanceActivity">
 
-    <TextView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Welcome to Advance"
-        >
+        app:tabMode="fixed"
+        android:contentDescription="Tabs for different sections" />
 
-    </TextView>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/tabs_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="Pager for displaying content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

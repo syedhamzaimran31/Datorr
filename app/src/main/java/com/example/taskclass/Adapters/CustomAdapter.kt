@@ -3,6 +3,7 @@ package com.example.taskclass.Adapters
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,23 +58,31 @@ class CustomAdapter(private val mList: List<ItemsViewModel>, private val databas
                     2 -> {
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
-                                val userListMale: List<MaleActivityData> = database.UserDao().getAllMales()
-                                val userListFemale: List<FemaleActivityData> = database.UserDao().getAllFemales()
+                                val userListMale: List<MaleActivityData> = database.userDao().getAllMales()
+                                val userListFemale: List<FemaleActivityData> = database.userDao().getAllFemales()
 
                                 withContext(Dispatchers.Main) {
-                                    if ( (userListMale != null && userListMale.isNotEmpty()) || (userListFemale != null && userListMale.isNotEmpty())) {
+                                    Log.d("CustomAdapter", "User List Male Size: ${userListMale.size}")
+                                    Log.d("CustomAdapter", "User List Female Size: ${userListFemale.size}")
+
+                                    if ( userListMale.isNotEmpty() || userListFemale.isNotEmpty()) {
+
                                         val intent = Intent(holder.itemView.context, AdvanceActivity::class.java)
                                         holder.itemView.context.startActivity(intent)
+
                                     } else {
                                         Toast.makeText(
                                             holder.itemView.context,
                                             "Fill at least one form",
                                             Toast.LENGTH_SHORT
                                         ).show()
+
+
                                     }
                                 }
                             } catch (e: Exception) {
                                 e.printStackTrace()
+                                Log.e("CustomAdapter", "An error occurred: ${e.message}", e)
                                 withContext(Dispatchers.Main) {
                                     Toast.makeText(
                                         holder.itemView.context,

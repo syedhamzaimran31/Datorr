@@ -3,7 +3,7 @@ package com.example.taskclass.room
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-@Entity
+@Entity(tableName = "FemaleActivityData")
 data class FemaleActivityData(
     @PrimaryKey(autoGenerate = true)
     val userID: Int,

@@ -36,6 +36,7 @@ class OptionActivity : AppCompatActivity() {
 
         binding = ActivityOptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        database = AppDatabase.getInstance(this)
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
@@ -59,7 +60,6 @@ class OptionActivity : AppCompatActivity() {
             data.add(ItemsViewModel(genderImage, genderText));
         }
 
-        database = AppDatabase.getInstance(this)
         val adapter = CustomAdapter(data, database);
 
         binding.recyclerview.adapter = adapter;

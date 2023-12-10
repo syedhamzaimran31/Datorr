@@ -18,6 +18,6 @@ object DatabaseBuilder {
         Room.databaseBuilder(
             context.applicationContext,
             AppDatabase::class.java,
-            "mydatabase"
+            "app_database"
         ).allowMainThreadQueries().build()
 }

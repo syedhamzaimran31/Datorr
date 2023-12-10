@@ -3,7 +3,7 @@ package com.example.taskclass.room
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "MaleActivityData")
 data class MaleActivityData(
     @PrimaryKey(autoGenerate = true)
     val userID: Long? = null,

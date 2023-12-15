@@ -13,7 +13,7 @@ class MyPagerAdapter(fm: androidx.fragment.app.FragmentManager) : FragmentPagerA
             0 -> {
                 Basic()
             }
-            1 -> Advance()
+            1 -> {Advance()}
             else -> {
                 return Pro()
             }

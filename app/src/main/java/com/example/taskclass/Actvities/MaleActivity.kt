@@ -2,6 +2,7 @@ package com.example.taskclass.Actvities
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -16,20 +17,15 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.taskclass.R
 import com.example.taskclass.databinding.ActivityMaleBinding
 import com.example.taskclass.room.AppDatabase
 import com.example.taskclass.room.DatabaseBuilder
 import com.example.taskclass.room.MaleActivityData
 import de.hdodenhof.circleimageview.CircleImageView
-import java.util.Calendar
-import android.Manifest
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import com.example.taskclass.room.FemaleActivityData
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class MaleActivity : AppCompatActivity() {
 
@@ -50,6 +46,7 @@ class MaleActivity : AppCompatActivity() {
         private const val REQUEST_APN_PERMISSION = 123
         private const val pic_id = 123
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -162,7 +159,7 @@ class MaleActivity : AppCompatActivity() {
                     lastName = lastName,
                     email = email,
                     password = password,
-                    isAbove_18 =age_room,
+                    isAbove_18 = age_room,
                     ageBirth = date_Room,
                     location_room = location_room,
                     photoRoom = photoRoom
@@ -204,6 +201,7 @@ class MaleActivity : AppCompatActivity() {
                         ).show()
                     }
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>) {
 
                 }
@@ -255,6 +253,7 @@ class MaleActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.taskclass.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

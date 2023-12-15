@@ -1,9 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.TaskClass" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.TaskClass" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="android:textColorPrimary">@color/black</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.TaskClass" parent="Base.Theme.TaskClass" />
+    <style name="Theme.TaskClass" parent="Base.Theme.TaskClass" >
+
+    </style>
+
+    <!-- Style for Spinner dropdown -->
+    <style name="SpinnerDropDown" parent="Widget.AppCompat.Spinner.DropDown">
+        <item name="android:layout_height">30dp</item> <!-- Set your desired height -->
+    </style>
 </resources>

@@ -45,6 +45,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="300dp"
+        app:endIconMode="clear_text"
         android:hint="Enter email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -64,6 +65,7 @@
         android:layout_marginTop="400dp"
         android:layout_marginRight="10dp"
         android:hint="Enter Password"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -78,9 +80,10 @@
     <Button
         android:id="@+id/loginBt"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginTop="500dp"
         android:text="Login"
         android:backgroundTint="#B403A9F4"

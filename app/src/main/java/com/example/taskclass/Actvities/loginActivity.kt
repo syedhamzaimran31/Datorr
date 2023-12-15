@@ -40,7 +40,7 @@ class loginActivity : AppCompatActivity() {
 
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
-        if (isFreshInstallation( sharedpreferences)) {
+        if (isFreshInstallation(sharedpreferences)) {
             Log.d("MyApplication", "Fresh installation")
 
             // Perform actions for a fresh installation, such as resetting shared preferences
@@ -99,7 +99,6 @@ class loginActivity : AppCompatActivity() {
                                 "User not found",
                                 Toast.LENGTH_SHORT,
                             ).show()
-//                            updateUI(null)
                         }
                     }
 
@@ -126,13 +125,12 @@ class loginActivity : AppCompatActivity() {
             startActivity(intent);
         }
     }
+
     private fun isFreshInstallation(sharedPreferences: SharedPreferences): Boolean {
-        // Check a flag in shared preferences to determine if this is a fresh installation
         return !sharedPreferences.contains("app_installed_before")
     }
 
     private fun resetSharedPreferences(sharedPreferences: SharedPreferences) {
-        // Reset shared preferences or perform any other actions needed for a fresh installation
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.putBoolean("app_installed_before", true)
@@ -155,14 +153,5 @@ class loginActivity : AppCompatActivity() {
             val i = Intent(this@loginActivity, OptionActivity::class.java)
             startActivity(i)
         }
-
-
-        //Firebase current user method
-//            val currentUser = auth.currentUser
-//        if (currentUser != null) {
-//            updateUI(currentUser);
-//
-//            Toast.makeText(applicationContext,"Already Logged in",Toast.LENGTH_SHORT).show();
-//        }
-    }
+   }
 }

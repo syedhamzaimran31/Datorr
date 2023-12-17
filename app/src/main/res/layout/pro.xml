@@ -8,9 +8,9 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_Pro"
-        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
         android:fontFamily="@font/hind_madurai_semibold"
         android:text="Pro Form"
         android:textAlignment="center"
@@ -18,28 +18,47 @@
         android:textSize="25sp"
         android:textStyle="italic" />
 
+    <TimePicker
+        android:id="@+id/timePickerDOB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_Pro"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:timePickerMode="spinner" />
+    <TextView
+        android:id="@+id/textViewDOB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:layout_below="@id/timePickerDOB"
+        android:layout_marginLeft="20dp"
+        android:textSize="18dp"
+        android:paddingLeft="80dp" />
+
+
     <AutoCompleteTextView
         android:id="@+id/autoTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_Pro"
+        android:layout_below="@+id/textViewDOB"
         android:layout_marginHorizontal="80dp"
-        android:layout_marginTop="40dp"
-        android:hint="type something"
         android:fontFamily="@font/hind_madurai_semibold"
-        android:textSize="25sp"
-        android:textStyle="italic"
+        android:hint="type something"
+        android:minHeight="48dp"
         android:textAlignment="center"
         android:textColor="?android:textColorPrimary"
-        android:minHeight="48dp" />
+        android:textSize="25sp"
+        android:textStyle="italic"
+        />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/proImageCardV"
         android:layout_width="200dp"
         android:layout_height="100dp"
-        android:layout_marginVertical="20dp"
         android:layout_below="@+id/autoTextView"
         android:layout_centerHorizontal="true"
+        android:layout_marginVertical="20dp"
         android:elevation="30dp"
         app:cardCornerRadius="15dp">
 
@@ -70,12 +89,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/proImageCardV"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="#8BC34A"
         android:fontFamily="@font/hind_madurai_semibold"
         android:letterSpacing="0.1"
         android:text="Submit"
-        android:textAlignment="center">
-    </com.google.android.material.button.MaterialButton>
+        android:textAlignment="center"></com.google.android.material.button.MaterialButton>
 </RelativeLayout>

@@ -212,7 +212,7 @@ class Advance : Fragment() {
         var result = ""
         uri?.let {
             val cursor: Cursor? = activity?.contentResolver?.query(it, null, null, null, null)
-            cursor?.use {
+            cursor?.use { it ->
                 if (it.moveToFirst()) {
                     val nameIndex: Int = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                     result = it.getString(nameIndex)

@@ -1,6 +1,5 @@
 package com.example.taskclass.Adapters
 
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.taskclass.Fragments.Advance
@@ -15,35 +14,30 @@ class MyPagerAdapter(fm: androidx.fragment.app.FragmentManager) : FragmentPagerA
                 Basic()
             }
 
-            1 -> ({
-                if (Basic.checkFormSubmit == true) {
-                    Advance()
-                } else {
+            1 -> {
 
-                }
-            }) as Fragment
+                Advance()
 
-            else -> ({
-                if (Basic.checkFormSubmit == true) {
-                     Pro()
-                } else {
-                Toast.makeText(con)
-                }
-            }) as Fragment
-        }
-    }
+            }
 
-    override fun getCount(): Int {
-        return 3
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        return when (position) {
-            0 -> "Basic"
-            1 -> "Advance"
             else -> {
-                return "Pro"
+
+                Pro()
             }
         }
     }
-}
+
+        override fun getCount(): Int {
+            return 3
+        }
+
+        override fun getPageTitle(position: Int): CharSequence {
+            return when (position) {
+                0 -> "Basic"
+                1 -> "Advance"
+                else -> {
+                    return "Pro"
+                }
+            }
+        }
+    }

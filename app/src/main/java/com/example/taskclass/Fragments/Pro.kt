@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,7 +36,8 @@ class Pro : Fragment() {
     ): View? {
         val binding: ProBinding = ProBinding.inflate(inflater, container, false)
 
-
+        val textViewDOB=binding.textViewDOB
+        val timePicker = binding.timePickerDOB
         val TextViewPro = binding.tvPro
         val autoTextView = binding.autoTextView
         val proImage = binding.proImageCardV
@@ -54,8 +56,9 @@ class Pro : Fragment() {
 
         }
         autoTextView.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) autoTextView.hint = "" else autoTextView.hint = "Your hint"
+            if (hasFocus) autoTextView.hint = "" else autoTextView.hint = "type something"
         }
+        OnClickTime(timePicker,textViewDOB)
         binding.submit.setOnClickListener{
             if (TextUtils.isEmpty(binding.autoTextView.text.toString().trim())) {
                 binding.autoTextView.error = "Auto Text View can not be empty"
@@ -155,5 +158,31 @@ class Pro : Fragment() {
         // Displaying this spannable
         // string in TextView
         TextViewPro.text = mSpannableString
+    }
+    private fun OnClickTime(timePicker: TimePicker, textView: TextView) {
+
+
+        timePicker.setOnTimeChangedListener { _, hour, minute -> var hour = hour
+            var am_pm = ""
+            // AM_PM decider logic
+            when {hour == 0 -> { hour += 12
+                am_pm = "AM"
+            }
+                hour == 12 -> am_pm = "PM"
+                hour > 12 -> { hour -= 12
+                    am_pm = "PM"
+                }
+                else -> am_pm = "AM"
+            }
+            if (textView != null) {
+                val hour = if (hour < 10) "0" + hour else hour
+                val min = if (minute < 10) "0" + minute else minute
+                // display format of time
+                val msg = "Time is: $hour : $min $am_pm"
+                textView.text = msg
+                textView.visibility = ViewGroup.VISIBLE
+            }
+
+        }
     }
 }

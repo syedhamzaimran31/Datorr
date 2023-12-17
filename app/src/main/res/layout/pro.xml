@@ -1,16 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.Pro">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_Pro"
+        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/hind_madurai_semibold"
+        android:text="Pro Form"
         android:textAlignment="center"
-        
-        android:text="Fragment 3" />
+        android:textFontWeight="1000"
+        android:textSize="25sp"
+        android:textStyle="italic" />
 
-</FrameLayout>
+    <AutoCompleteTextView
+        android:id="@+id/autoTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_Pro"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="40dp"
+        android:hint="type something"
+        android:fontFamily="@font/hind_madurai_semibold"
+        android:textSize="25sp"
+        android:textStyle="italic"
+        android:textAlignment="center"
+        android:textColor="?android:textColorPrimary"
+        android:minHeight="48dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/proImageCardV"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginVertical="20dp"
+        android:layout_below="@+id/autoTextView"
+        android:layout_centerHorizontal="true"
+        android:elevation="30dp"
+        app:cardCornerRadius="15dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/proImage"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/add_photo"
+            android:textColor="?android:textColorPrimary">
+
+        </com.google.android.material.imageview.ShapeableImageView>
+    </com.google.android.material.card.MaterialCardView>
+
+    <ImageView
+        android:id="@+id/removeImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@id/proImageCardV"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/proImageCardV"
+        android:src="@drawable/removebtn"></ImageView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submit"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/proImageCardV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="80dp"
+        android:backgroundTint="#8BC34A"
+        android:fontFamily="@font/hind_madurai_semibold"
+        android:letterSpacing="0.1"
+        android:text="Submit"
+        android:textAlignment="center">
+    </com.google.android.material.button.MaterialButton>
+</RelativeLayout>

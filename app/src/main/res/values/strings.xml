@@ -2,9 +2,10 @@
     <string name="app_name">TaskClass</string>
     <string name="selected_item">Selected item:</string>
 
-    <string-array name="Languages">
+    <string-array name="Cities">
         <item>Select City:</item>
         <item>Karachi</item>
+        <item>Kashmir</item>
         <item>Lahore</item>
         <item>Islamabad</item>
         <item>Pindi</item>

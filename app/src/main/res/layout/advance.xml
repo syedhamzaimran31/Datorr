@@ -16,18 +16,38 @@
             >
 
 
-
-            <GridLayout
-                android:id="@+id/document_grid"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_Advance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2">
+                android:fontFamily="@font/hind_madurai_semibold"
+                android:layout_marginVertical="10dp"
+                android:text="Advance Form"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:textFontWeight="1000"
+                android:textStyle="italic" />
+
+            <LinearLayout
+                android:id="@+id/gridContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/tv_Advance"
+                >
+            <GridLayout
+                android:id="@+id/document_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:orientation="vertical">
+                    android:layout_width="128dp"
+                    android:layout_height="195dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
 
 
                     <com.google.android.material.card.MaterialCardView
@@ -73,6 +93,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:weightSum="1"
                     android:layout_marginLeft="40dp"
                     android:orientation="vertical">
 
@@ -120,7 +141,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
                     android:orientation="vertical">
 
 
@@ -213,12 +233,12 @@
                 </LinearLayout>
 
             </GridLayout>
-
+            </LinearLayout>
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/marksheetTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/document_grid"
+                android:layout_below="@id/gridContainer"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/hind_madurai_semibold"
@@ -289,7 +309,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveBtn"
+                android:id="@+id/submitBtn"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/year_cardView"
@@ -301,7 +321,7 @@
                 android:backgroundTint="#8BC34A"
                 android:fontFamily="@font/hind_madurai_semibold"
                 android:letterSpacing="0.1"
-                android:text="Save"
+                android:text="submit"
                 android:textAlignment="center">
 
             </com.google.android.material.button.MaterialButton>

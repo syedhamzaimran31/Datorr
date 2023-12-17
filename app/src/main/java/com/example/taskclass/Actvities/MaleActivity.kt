@@ -179,7 +179,7 @@ class MaleActivity : AppCompatActivity() {
 
         }
 
-        val languages = resources.getStringArray(R.array.Languages)
+        val languages = resources.getStringArray(R.array.Cities)
         val spinner = findViewById<Spinner>(R.id.spinner)
 
         if (spinner != null) {

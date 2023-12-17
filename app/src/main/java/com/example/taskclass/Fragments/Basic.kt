@@ -30,7 +30,9 @@ class Basic : Fragment() {
     private val REQUEST_CODE_CAMERA_1 = 51
     private val REQUEST_CODE_CAMERA_2 = 52
     private val CAMERA_PERMISSION_REQUEST_CODE = 100
-
+    companion object{
+        public var checkFormSubmit=false
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +73,7 @@ class Basic : Fragment() {
 
             } else {
                 Toast.makeText(context, "Data successfully stored", Toast.LENGTH_SHORT).show()
+                checkFormSubmit=true;
             }
         }
         return binding.root
@@ -109,27 +112,27 @@ class Basic : Fragment() {
         startActivityForResult(cameraIntent, requestCode)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // Check if the CAMERA permission is granted in the permission result
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                // If permission is granted, open the camera
-                openCamera(REQUEST_CODE_CAMERA_1)
-            } else {
-                // If permission is not granted, show a Toast indicating the requirement
-                Toast.makeText(
-                    requireContext(),
-                    "Camera permission is required to take pictures.",
-                    Toast.LENGTH_SHORT
-                ).show()
+        override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<String>,
+            grantResults: IntArray
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            // Check if the CAMERA permission is granted in the permission result
+            if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+                if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                    // If permission is granted, open the camera
+                    openCamera(REQUEST_CODE_CAMERA_1)
+                } else {
+                    // If permission is not granted, show a Toast indicating the requirement
+                    Toast.makeText(
+                        requireContext(),
+                        "Camera permission is required to take pictures.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

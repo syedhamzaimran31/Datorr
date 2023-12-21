@@ -20,33 +20,47 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.taskclass.R
 import com.example.taskclass.databinding.BasicBinding
+import com.example.taskclass.room.AppDatabase
+import com.example.taskclass.room.Basic
+import com.example.taskclass.room.DatabaseBuilder
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 
-class Basic : Fragment() {
+class BasicFragment : Fragment() {
 
     private val REQUEST_CODE = 50
     private val REQUEST_CODE_CAMERA_1 = 51
     private val REQUEST_CODE_CAMERA_2 = 52
     private val CAMERA_PERMISSION_REQUEST_CODE = 100
-    companion object{
-        public var checkFormSubmit=false
+    private lateinit var database: AppDatabase
+    private var cnicFront: String? = null
+    private var cnicBack: String? = null
+    private var pdf_room: String? = null
+
+    companion object {
+        public var checkFormSubmit = false
     }
 
     override fun onCreateView(
+
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
         val binding: BasicBinding = BasicBinding.inflate(inflater, container, false)
-        // set variables in Binding
-
+        database = DatabaseBuilder.getInstance(requireContext())
 
         val TextViewBasic = binding.tvBasic
 
         tvUnderline(TextViewBasic)
-
 
         binding.btnSelectPdf.setOnClickListener {
             Toast.makeText(context, "select a pdf", Toast.LENGTH_SHORT).show()
@@ -61,8 +75,10 @@ class Basic : Fragment() {
             checkCameraPermissionAndOpenCamera(REQUEST_CODE_CAMERA_2)
         }
         binding.btnSubmitBasic.setOnClickListener {
-            val name = binding.cnicNumber.text.toString().trim();
-            val lastName = binding.phoneNumber.text.toString().trim();
+
+            val cnicNumber = binding.cnicNumber.text.toString().trim();
+            val phoneNumber = binding.phoneNumber.text.toString().trim();
+
             if (TextUtils.isEmpty(binding.cnicNumber.text.toString().trim())) {
                 binding.cnicNumber.setError("CNIC number cannot be empty")
                 return@setOnClickListener
@@ -71,9 +87,37 @@ class Basic : Fragment() {
                 binding.phoneNumber.setError("Phone number can not be empty")
                 return@setOnClickListener
 
+            }
+            if (cnicFront == null || cnicBack == null) {
+
+                Toast.makeText(
+                    requireContext(),
+                    "Upload CNIC Front and Back Image",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+            if (pdf_room == null) {
+                Toast.makeText(
+                    requireContext(),
+                    "Upload PDF File",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             } else {
+                val BasicData = Basic(
+                    cnicFront = cnicFront,
+                    cnicBack = cnicBack,
+                    cnicNumber = cnicNumber,
+                    phoneNumber = phoneNumber,
+                    selectPDF = pdf_room
+                )
+                lifecycleScope.launch {
+                    database.userDao().insertBasic(BasicData)
+                }
                 Toast.makeText(context, "Data successfully stored", Toast.LENGTH_SHORT).show()
-                checkFormSubmit=true;
+                checkFormSubmit = true;
+
             }
         }
         return binding.root
@@ -112,27 +156,32 @@ class Basic : Fragment() {
         startActivityForResult(cameraIntent, requestCode)
     }
 
-        override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
-        ) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            // Check if the CAMERA permission is granted in the permission result
-            if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-                if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                    // If permission is granted, open the camera
-                    openCamera(REQUEST_CODE_CAMERA_1)
-                } else {
-                    // If permission is not granted, show a Toast indicating the requirement
-                    Toast.makeText(
-                        requireContext(),
-                        "Camera permission is required to take pictures.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+    override fun onRequestPermissionsResult(
+
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // Check if the CAMERA permission is granted in the permission result
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+
+                // If permission is granted, open the camera
+                openCamera(REQUEST_CODE_CAMERA_1)
+
+            } else {
+
+                // If permission is not granted, show a Toast indicating the requirement
+                Toast.makeText(
+                    requireContext(),
+                    "Camera permission is required to take pictures.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -150,8 +199,11 @@ class Basic : Fragment() {
             val imageBitmap = extras?.get("data") as? Bitmap
 
             val cnicFrontImageView: ImageView? = view?.findViewById(R.id.cnicFront)
-
+            val selectedImageUri: Uri? = data?.data
+//            selectedImagePath = generateUniqueImageName()
             cnicFrontImageView?.setImageBitmap(imageBitmap)
+//            cnicFront = encodeBitmapToBase64(imageBitmap)
+            cnicFront = generateUniqueImageName()
 
         }
         if (requestCode == REQUEST_CODE_CAMERA_2 && resultCode == Activity.RESULT_OK) {
@@ -164,16 +216,16 @@ class Basic : Fragment() {
 
             // Set the captured image on your ImageView
             cnicBackImageView?.setImageBitmap(imageBitmap)
-
-            // Optionally, you can save the image to a file or handle it further
+//            cnicBack = encodeBitmapToBase64(imageBitmap)
+            cnicBack = generateUniqueImageName()
         }
     }
 
     private fun getFileName(uri: Uri?): String {
         var result = ""
-        uri?.let {
+        uri?.let { it ->
             val cursor: Cursor? = activity?.contentResolver?.query(it, null, null, null, null)
-            cursor?.use {
+            cursor?.use { it ->
                 if (it.moveToFirst()) {
                     val nameIndex: Int = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                     result = it.getString(nameIndex)
@@ -192,6 +244,7 @@ class Basic : Fragment() {
         imageViewPdfPreview?.visibility = View.VISIBLE;
         // Optionally, you can also display the PDF file name in a Toast
         Toast.makeText(context, "Selected PDF: $pdfFileName", Toast.LENGTH_SHORT).show()
+        pdf_room = pdfFileName.toString()
     }
 
     private fun tvUnderline(TextViewBasic: TextView) {
@@ -209,5 +262,23 @@ class Basic : Fragment() {
         // Displaying this spannable
         // string in TextView
         TextViewBasic.text = mSpannableString
+    }
+
+//    private fun encodeBitmapToBase64(bitmap: Bitmap?): String {
+//        val byteArrayOutputStream = ByteArrayOutputStream()
+//        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+//        val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+//        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+//    }
+
+    fun generateUniqueImageName(): String {
+        // Use timestamp to ensure uniqueness
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+
+        // Generate a unique identifier (UUID) to further ensure uniqueness
+        val uniqueId = UUID.randomUUID().toString()
+
+        // Combine timestamp and unique identifier to create a unique name
+        return "IMG_$timeStamp$uniqueId.jpg"
     }
 }

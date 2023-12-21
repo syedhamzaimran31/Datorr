@@ -22,15 +22,24 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.taskclass.R
 import com.example.taskclass.databinding.AdvanceBinding
+import com.example.taskclass.room.Advance
+import com.example.taskclass.room.AppDatabase
+import com.example.taskclass.room.DatabaseBuilder
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
-class Advance : Fragment() {
+class AdvanceFragment : Fragment() {
 
     private lateinit var binding: AdvanceBinding
+    lateinit var dataBase: AppDatabase
     private var yearPassing_spinner: String? = null
 
-    private val REQUEST_CODE = 50
     private val CAMERA_PERMISSION_REQUEST_CODE = 100
 
     private var documentUpload_1: ImageView? = null
@@ -38,26 +47,30 @@ class Advance : Fragment() {
     private var documentUpload_3: ImageView? = null
     private var documentUpload_4: ImageView? = null
 
+    private val image_1: String? = generateUniqueImageName()
+    private val image_2: String? = generateUniqueImageName()
+    private var image_3: String? = null
+    private var image_4: String? = null
+    private var passingYear: String? = (null).toString()
+    private var uploadPDF: String? = null
+
+
     companion object {
-        private const val REQUEST_APN_PERMISSION = 123
         private const val picId_1 = 11
         private const val picId_2 = 22
         private const val picId_3 = 33
         private const val picId_4 = 44
-        private const val REQUEST_CODE = 70
         private const val REQUEST_CODE_PDF = 71
 
     }
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         binding = AdvanceBinding.inflate(inflater, container, false)
-
+        dataBase = DatabaseBuilder.getInstance(requireContext())
         documentUpload_1 = binding.document1
         documentUpload_2 = binding.document2
         documentUpload_3 = binding.document3
@@ -82,7 +95,31 @@ class Advance : Fragment() {
             checkCameraPermissionAndOpenCamera(picId_2)
         }
         binding.submitBtn.setOnClickListener {
-            Basic.checkFormSubmit=true;
+
+            if (image_1 == null || image_2 == null || image_3 == null || image_4 == null) {
+                Toast.makeText(requireContext(), "All image files are required", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (uploadPDF == null) {
+                Toast.makeText(requireContext(), "Upload PDF file", Toast.LENGTH_SHORT).show()
+
+            } else if (passingYear == null || passingYear == "Select Year:") {
+                Toast.makeText(requireContext(), "Select Passing year", Toast.LENGTH_SHORT).show()
+            } else {
+//                BasicFragment.checkFormSubmit = true;
+                val AdvanceData = Advance(
+                    image_1 = image_1,
+                    image_2 = image_2,
+                    image_3 = image_3,
+                    image_4 = image_4,
+                    uploadPDF = uploadPDF,
+                    passingYear = passingYear
+                )
+                lifecycleScope.launch {
+                    dataBase.userDao().insertAdvance(AdvanceData)
+                }
+                Toast.makeText(requireContext(), "Data Successfully stored", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
@@ -94,19 +131,8 @@ class Advance : Fragment() {
             val selectedPdfUri = data?.data
 
             val pdfFileName = getFileName(selectedPdfUri)
-
             showPdfPreview(pdfFileName)
         }
-
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-
-            val selectedPdfUri = data?.data
-
-            val pdfFileName = getFileName(selectedPdfUri)
-
-            showPdfPreview(pdfFileName)
-        }
-
         if (requestCode == picId_1 && resultCode == Activity.RESULT_OK) {
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
@@ -127,11 +153,11 @@ class Advance : Fragment() {
             // Set the captured image on your ImageView
             documenUpload_2?.setImageBitmap(imageBitmap)
 
-            // Optionally, you can save the image to a file or handle it further
         }
-    if (requestCode == picId_3 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == picId_3 && resultCode == Activity.RESULT_OK) {
             if (data != null && data.data != null) {
                 val imageUri = data.data
+                image_3 = "$imageUri.jpg".toString()
                 try {
                     val inputStream = requireContext().contentResolver.openInputStream(imageUri!!)
                     val photo = BitmapFactory.decodeStream(inputStream)
@@ -145,6 +171,7 @@ class Advance : Fragment() {
         } else if (requestCode == picId_4 && resultCode == Activity.RESULT_OK) {
             if (data != null && data.data != null) {
                 val imageUri = data.data
+                image_4 = "$imageUri.jpg".toString()
                 try {
                     val inputStream = requireContext().contentResolver.openInputStream(imageUri!!)
                     val photo = BitmapFactory.decodeStream(inputStream)
@@ -171,6 +198,7 @@ class Advance : Fragment() {
                 parent: AdapterView<*>, view: View?, position: Int, id: Long
             ) {
                 yearPassing_spinner = yearPassingSpinner[position].toString()
+                passingYear = yearPassing_spinner.toString()
                 if (position != 0) {
                     Toast.makeText(
                         requireContext(),
@@ -181,7 +209,7 @@ class Advance : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // Handle when nothing is selected
+                passingYear = null
             }
         }
     }
@@ -191,12 +219,12 @@ class Advance : Fragment() {
         documentUpload_3?.setOnClickListener(View.OnClickListener { _: View? ->
             val galleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galleryIntent, Advance.picId_3)
+            startActivityForResult(galleryIntent, AdvanceFragment.picId_3)
         })
         documentUpload_4?.setOnClickListener(View.OnClickListener { _: View? ->
             val galleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galleryIntent, Advance.picId_4)
+            startActivityForResult(galleryIntent, AdvanceFragment.picId_4)
         })
     }
 
@@ -204,7 +232,7 @@ class Advance : Fragment() {
         binding.uploadBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "application/pdf"
-            startActivityForResult(intent, REQUEST_CODE)
+            startActivityForResult(intent, REQUEST_CODE_PDF)
         }
     }
 
@@ -229,18 +257,20 @@ class Advance : Fragment() {
         // Set a placeholder image or PDF icon as the preview
         imageViewPdfPreview?.setImageResource(R.drawable.pdf)
         imageViewPdfPreview?.visibility = View.VISIBLE;
+
         // Optionally, you can also display the PDF file name in a Toast
+        uploadPDF = pdfFileName.toString()
         Toast.makeText(context, "Selected PDF: $pdfFileName", Toast.LENGTH_SHORT).show()
     }
+
     private fun openCamera(requestCode: Int) {
         // Open the camera using an intent
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(cameraIntent, requestCode)
     }
+
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // Check if the CAMERA permission is granted in the permission result
@@ -258,11 +288,11 @@ class Advance : Fragment() {
             }
         }
     }
+
     private fun checkCameraPermissionAndOpenCamera(requestCode: Int) {
         // Check if the CAMERA permission is granted
         if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.CAMERA
+                requireContext(), android.Manifest.permission.CAMERA
             ) == android.content.pm.PackageManager.PERMISSION_GRANTED
         ) {
             // If permission is granted, open the camera
@@ -276,6 +306,7 @@ class Advance : Fragment() {
             )
         }
     }
+
     private fun tvUnderline(TextViewAdvance: TextView) {
         val mString = "Advance Form"
 
@@ -286,6 +317,17 @@ class Advance : Fragment() {
         mSpannableString.setSpan(UnderlineSpan(), 0, mSpannableString.length, 0)
 
         TextViewAdvance.text = mSpannableString
+    }
+
+    fun generateUniqueImageName(): String {
+        // Use timestamp to ensure uniqueness
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+
+        // Generate a unique identifier (UUID) to further ensure uniqueness
+        val uniqueId = UUID.randomUUID().toString()
+
+        // Combine timestamp and unique identifier to create a unique name
+        return "IMG_$timeStamp$uniqueId.jpg"
     }
 }
 

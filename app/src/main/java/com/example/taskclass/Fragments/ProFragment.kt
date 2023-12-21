@@ -21,31 +21,42 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.taskclass.R
 import com.example.taskclass.databinding.ProBinding
+import com.example.taskclass.room.DatabaseBuilder
+import com.example.taskclass.room.Pro
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 
-class Pro : Fragment() {
+class ProFragment : Fragment() {
     private val REQUEST_CODE_CAMERA = 82
     private val CAMERA_PERMISSION_REQUEST_CODE = 101
-
+    private var DOB: String? = null
+    private var image:String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding: ProBinding = ProBinding.inflate(inflater, container, false)
-
-        val textViewDOB=binding.textViewDOB
+        var dataBase = DatabaseBuilder.getInstance(requireContext())
+        val textViewDOB = binding.textViewDOB
         val timePicker = binding.timePickerDOB
         val TextViewPro = binding.tvPro
         val autoTextView = binding.autoTextView
         val proImage = binding.proImageCardV
         val clearBtn = binding.removeImage
-        val autoTextView_text=binding.autoTextView.text.toString().trim()
 
+
+        //Calling Functions
         tvUnderline(TextViewPro)
-        autoTextGenerate(autoTextView);
+        autoTextGenerate(autoTextView)
+        onClickTime(timePicker, textViewDOB)
 
         proImage.setOnClickListener {
             checkCameraPermissionAndOpenCamera(REQUEST_CODE_CAMERA)
@@ -53,20 +64,37 @@ class Pro : Fragment() {
         clearBtn.setOnClickListener {
             binding.proImage.setImageDrawable(null)
             binding.proImage.setImageResource(R.drawable.add_photo)
-
+            image=null
         }
         autoTextView.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) autoTextView.hint = "" else autoTextView.hint = "type something"
         }
-        OnClickTime(timePicker,textViewDOB)
-        binding.submit.setOnClickListener{
+        binding.submit.setOnClickListener {
+
+            if (TextUtils.isEmpty(binding.textViewDOB.text.toString().trim())) {
+                binding.textViewDOB.error = "select Time"
+                return@setOnClickListener
+
+            }
             if (TextUtils.isEmpty(binding.autoTextView.text.toString().trim())) {
                 binding.autoTextView.error = "Auto Text View can not be empty"
                 return@setOnClickListener
 
+            }
+            if (image == null) {
+                Toast.makeText(requireContext(), "Image is required", Toast.LENGTH_SHORT).show()
             } else {
+                val autoText = binding.autoTextView.text.toString().trim()
+                val Pro = Pro(
+                    DOB = DOB,
+                    autoText = autoText,
+                    image = image!!
+                    )
+                lifecycleScope.launch {
+                    dataBase.userDao().insertPro(Pro)
+                }
                 Toast.makeText(context, "Data successfully stored", Toast.LENGTH_SHORT).show()
-                Basic.checkFormSubmit=true;
+                BasicFragment.checkFormSubmit = true;
             }
         }
         // Inflate the layout for this fragment
@@ -133,13 +161,13 @@ class Pro : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
-
             val proImageView: ImageView? = view?.findViewById(R.id.proImage)
 
             proImageView?.setImageBitmap(imageBitmap)
-
+            image=generateUniqueImageName()
         }
     }
 
@@ -159,19 +187,26 @@ class Pro : Fragment() {
         // string in TextView
         TextViewPro.text = mSpannableString
     }
-    private fun OnClickTime(timePicker: TimePicker, textView: TextView) {
+
+    private fun onClickTime(timePicker: TimePicker, textView: TextView) {
 
 
-        timePicker.setOnTimeChangedListener { _, hour, minute -> var hour = hour
+        timePicker.setOnTimeChangedListener { _, hour, minute ->
+            var hour = hour
             var am_pm = ""
             // AM_PM decider logic
-            when {hour == 0 -> { hour += 12
-                am_pm = "AM"
-            }
+            when {
+                hour == 0 -> {
+                    hour += 12
+                    am_pm = "AM"
+                }
+
                 hour == 12 -> am_pm = "PM"
-                hour > 12 -> { hour -= 12
+                hour > 12 -> {
+                    hour -= 12
                     am_pm = "PM"
                 }
+
                 else -> am_pm = "AM"
             }
             if (textView != null) {
@@ -179,10 +214,23 @@ class Pro : Fragment() {
                 val min = if (minute < 10) "0" + minute else minute
                 // display format of time
                 val msg = "Time is: $hour : $min $am_pm"
+                val savingTime="$hour : $min $am_pm"
                 textView.text = msg
+                DOB = savingTime.toString()
                 textView.visibility = ViewGroup.VISIBLE
             }
 
         }
+    }
+
+    fun generateUniqueImageName(): String {
+        // Use timestamp to ensure uniqueness
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+
+        // Generate a unique identifier (UUID) to further ensure uniqueness
+        val uniqueId = UUID.randomUUID().toString()
+
+        // Combine timestamp and unique identifier to create a unique name
+        return "IMG_$timeStamp$uniqueId.jpg"
     }
 }

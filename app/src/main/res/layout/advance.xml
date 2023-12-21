@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.Advance">
+    tools:context=".Fragments.AdvanceFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -266,7 +266,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageviewAdvance_pdf"
-                android:layout_width="20dp"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignTop="@id/uploadBtn"
                 android:layout_marginStart="5dp"

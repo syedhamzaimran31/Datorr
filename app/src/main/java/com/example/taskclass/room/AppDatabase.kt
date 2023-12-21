@@ -6,9 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [MaleActivityData::class,FemaleActivityData::class], version = 1)
+@Database(
+    entities = [MaleActivityData::class, FemaleActivityData::class, Basic::class,Advance::class,Pro::class],
+    version = 2
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
@@ -19,11 +23,13 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "app_database"
-                ).build()
+                ).fallbackToDestructiveMigration() // Add this line
+                    .build()
                 INSTANCE = instance
                 instance
             }
         }
+
     }
 }
 

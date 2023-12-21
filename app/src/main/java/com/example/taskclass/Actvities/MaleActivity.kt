@@ -39,7 +39,6 @@ class MaleActivity : AppCompatActivity() {
     private var photoRoom: String? = null
     lateinit var pickDateBtn: Button
     lateinit var selectedDateTV: TextView
-    private var name: String? = null
     lateinit var clickImageId: CircleImageView
 
     companion object {
@@ -120,6 +119,7 @@ class MaleActivity : AppCompatActivity() {
                 applicationContext, "On click : $selected_Age $age_room", Toast.LENGTH_SHORT
             ).show()
         }
+
         binding.submitBtn.setOnClickListener {
 
             val name = binding.nameEt.text.toString().trim();

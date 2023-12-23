@@ -7,6 +7,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.SpannableString
@@ -17,6 +19,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -28,6 +31,9 @@ import com.example.taskclass.databinding.AdvanceBinding
 import com.example.taskclass.room.Advance
 import com.example.taskclass.room.AppDatabase
 import com.example.taskclass.room.DatabaseBuilder
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.Circle
+import com.github.ybq.android.spinkit.style.WanderingCubes
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -105,6 +111,12 @@ class AdvanceFragment : Fragment() {
             } else if (passingYear == null || passingYear == "Select Year:") {
                 Toast.makeText(requireContext(), "Select Passing year", Toast.LENGTH_SHORT).show()
             } else {
+
+                val progressBar = binding.spinKit as ProgressBar
+                val Circle: Sprite = Circle()
+                progressBar.visibility = View.VISIBLE
+                progressBar.indeterminateDrawable = Circle
+
 //                BasicFragment.checkFormSubmit = true;
                 val AdvanceData = Advance(
                     image_1 = image_1,
@@ -114,11 +126,16 @@ class AdvanceFragment : Fragment() {
                     uploadPDF = uploadPDF,
                     passingYear = passingYear
                 )
-                lifecycleScope.launch {
-                    dataBase.userDao().insertAdvance(AdvanceData)
-                }
-                Toast.makeText(requireContext(), "Data Successfully stored", Toast.LENGTH_SHORT)
-                    .show()
+                Handler(Looper.getMainLooper()).postDelayed({
+
+                    lifecycleScope.launch {
+                        dataBase.userDao().insertAdvance(AdvanceData)
+                    }
+                    Toast.makeText(requireContext(), "Data Successfully stored", Toast.LENGTH_SHORT)
+                        .show()
+                    progressBar.visibility = View.GONE
+                }, 2000)
+
             }
         }
     }

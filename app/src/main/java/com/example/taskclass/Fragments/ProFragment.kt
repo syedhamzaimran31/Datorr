@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.SpannableString
 import android.text.TextUtils
@@ -15,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
@@ -26,6 +29,9 @@ import com.example.taskclass.R
 import com.example.taskclass.databinding.ProBinding
 import com.example.taskclass.room.DatabaseBuilder
 import com.example.taskclass.room.Pro
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.Circle
+import com.github.ybq.android.spinkit.style.WanderingCubes
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -37,7 +43,7 @@ class ProFragment : Fragment() {
     private val REQUEST_CODE_CAMERA = 82
     private val CAMERA_PERMISSION_REQUEST_CODE = 101
     private var DOB: String? = null
-    private var image:String? = null
+    private var image: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +70,7 @@ class ProFragment : Fragment() {
         clearBtn.setOnClickListener {
             binding.proImage.setImageDrawable(null)
             binding.proImage.setImageResource(R.drawable.add_photo)
-            image=null
+            image = null
         }
         autoTextView.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) autoTextView.hint = "" else autoTextView.hint = "type something"
@@ -84,17 +90,28 @@ class ProFragment : Fragment() {
             if (image == null) {
                 Toast.makeText(requireContext(), "Image is required", Toast.LENGTH_SHORT).show()
             } else {
+
+                val progressBar = binding.spinKit as ProgressBar
+                val Circle: Sprite = Circle()
+                progressBar.visibility = View.VISIBLE
+                progressBar.indeterminateDrawable = Circle
                 val autoText = binding.autoTextView.text.toString().trim()
+
                 val Pro = Pro(
                     DOB = DOB,
                     autoText = autoText,
                     image = image!!
-                    )
-                lifecycleScope.launch {
-                    dataBase.userDao().insertPro(Pro)
-                }
-                Toast.makeText(context, "Data successfully stored", Toast.LENGTH_SHORT).show()
-                BasicFragment.checkFormSubmit = true;
+                )
+                Handler(Looper.getMainLooper()).postDelayed({
+
+                    lifecycleScope.launch {
+                        dataBase.userDao().insertPro(Pro)
+                    }
+                    Toast.makeText(context, "Data successfully stored", Toast.LENGTH_SHORT).show()
+                    BasicFragment.checkFormSubmit = true;
+                    progressBar.visibility = View.GONE
+                }, 2000)
+
             }
         }
         // Inflate the layout for this fragment
@@ -167,7 +184,7 @@ class ProFragment : Fragment() {
             val proImageView: ImageView? = view?.findViewById(R.id.proImage)
 
             proImageView?.setImageBitmap(imageBitmap)
-            image=generateUniqueImageName()
+            image = generateUniqueImageName()
         }
     }
 
@@ -214,7 +231,7 @@ class ProFragment : Fragment() {
                 val min = if (minute < 10) "0" + minute else minute
                 // display format of time
                 val msg = "Time is: $hour : $min $am_pm"
-                val savingTime="$hour : $min $am_pm"
+                val savingTime = "$hour : $min $am_pm"
                 textView.text = msg
                 DOB = savingTime.toString()
                 textView.visibility = ViewGroup.VISIBLE

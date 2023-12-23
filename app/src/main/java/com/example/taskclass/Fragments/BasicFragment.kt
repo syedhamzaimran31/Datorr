@@ -6,6 +6,8 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.SpannableString
@@ -15,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -26,6 +29,9 @@ import com.example.taskclass.databinding.BasicBinding
 import com.example.taskclass.room.AppDatabase
 import com.example.taskclass.room.Basic
 import com.example.taskclass.room.DatabaseBuilder
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.Circle
+import com.github.ybq.android.spinkit.style.WanderingCubes
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -105,6 +111,11 @@ class BasicFragment : Fragment() {
                 ).show()
 
             } else {
+                val progressBar = binding.spinKit as ProgressBar
+                val Circle: Sprite = Circle()
+                progressBar.visibility = View.VISIBLE
+                progressBar.indeterminateDrawable = Circle
+
                 val BasicData = Basic(
                     cnicFront = cnicFront,
                     cnicBack = cnicBack,
@@ -112,12 +123,15 @@ class BasicFragment : Fragment() {
                     phoneNumber = phoneNumber,
                     selectPDF = pdf_room
                 )
+
+                Handler(Looper.getMainLooper()).postDelayed({
                 lifecycleScope.launch {
                     database.userDao().insertBasic(BasicData)
                 }
                 Toast.makeText(context, "Data successfully stored", Toast.LENGTH_SHORT).show()
                 checkFormSubmit = true;
-
+                    progressBar.visibility = View.GONE
+                }, 2000)
             }
         }
         return binding.root

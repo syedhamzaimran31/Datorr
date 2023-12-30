@@ -332,7 +332,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:visibility="invisible"
-                app:SpinKit_Color="@color/black"
+                app:SpinKit_Color="?android:textColorPrimary"
                 app:layout_constraintVertical_bias="0.499" />
 
         </RelativeLayout>

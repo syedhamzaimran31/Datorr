@@ -1,5 +1,6 @@
 package com.example.taskclass.room
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,5 +10,5 @@ data class Pro(
     val userId:Long?=null,
     val DOB: String?,
     val autoText:String,
-    val image:String
+    val image: String
 )

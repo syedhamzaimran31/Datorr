@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -31,13 +32,9 @@ import com.example.taskclass.room.Basic
 import com.example.taskclass.room.DatabaseBuilder
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.Circle
-import com.github.ybq.android.spinkit.style.WanderingCubes
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.util.UUID
-
+import android.util.Base64
+import java.io.ByteArrayOutputStream
 
 class BasicFragment : Fragment() {
 
@@ -63,6 +60,14 @@ class BasicFragment : Fragment() {
     ): View? {
         val binding: BasicBinding = BasicBinding.inflate(inflater, container, false)
         database = DatabaseBuilder.getInstance(requireContext())
+
+//        val imagePath = ""
+//        val bitmap = BitmapFactory.decodeFile(imagePath)
+
+        val imageView_1: ImageView = binding.cnicFront
+        val imageView_2:ImageView=binding.cnicBack
+//        imageView_1.setImageBitmap(bitmap)
+//        imageView_2.setImageBitmap(bitmap)
 
         val TextViewBasic = binding.tvBasic
 
@@ -211,13 +216,14 @@ class BasicFragment : Fragment() {
         if (requestCode == REQUEST_CODE_CAMERA_1 && resultCode == Activity.RESULT_OK) {
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
+            val myPhoto= imageBitmap?.let { compressBitmap(it,100) }
 
             val cnicFrontImageView: ImageView? = view?.findViewById(R.id.cnicFront)
             val selectedImageUri: Uri? = data?.data
 //            selectedImagePath = generateUniqueImageName()
-            cnicFrontImageView?.setImageBitmap(imageBitmap)
+            cnicFrontImageView?.setImageBitmap(myPhoto)
 //            cnicFront = encodeBitmapToBase64(imageBitmap)
-            cnicFront = generateUniqueImageName()
+            cnicFront = myPhoto.toString()
 
         }
         if (requestCode == REQUEST_CODE_CAMERA_2 && resultCode == Activity.RESULT_OK) {
@@ -225,13 +231,14 @@ class BasicFragment : Fragment() {
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
 
+            val myPhoto= imageBitmap?.let { compressBitmap(it,100) }
             // Assuming you have an ImageView in your layout with the ID cnicBackImageView
             val cnicBackImageView: ImageView? = view?.findViewById(R.id.cnicBack)
 
             // Set the captured image on your ImageView
-            cnicBackImageView?.setImageBitmap(imageBitmap)
+            cnicBackImageView?.setImageBitmap(myPhoto)
 //            cnicBack = encodeBitmapToBase64(imageBitmap)
-            cnicBack = generateUniqueImageName()
+            cnicBack = myPhoto.toString()
         }
     }
 
@@ -285,14 +292,26 @@ class BasicFragment : Fragment() {
 //        return Base64.encodeToString(byteArray, Base64.DEFAULT)
 //    }
 
-    fun generateUniqueImageName(): String {
-        // Use timestamp to ensure uniqueness
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-
-        // Generate a unique identifier (UUID) to further ensure uniqueness
-        val uniqueId = UUID.randomUUID().toString()
-
-        // Combine timestamp and unique identifier to create a unique name
-        return "IMG_$timeStamp$uniqueId.jpg"
+    //    fun generateUniqueImageName(): String {
+//        // Use timestamp to ensure uniqueness
+//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+//
+//        // Generate a unique identifier (UUID) to further ensure uniqueness
+//        val uniqueId = UUID.randomUUID().toString()
+//
+//        // Combine timestamp and unique identifier to create a unique name
+//        return "IMG_$timeStamp$uniqueId.jpg"
+//    }
+//    fun saveImage(bitmap: Bitmap?): String? {
+//        val byteArrayOutputStream = ByteArrayOutputStream()
+//        bitmap?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+//        val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+//        return Base64.encodeToString(byteArray, Base64.NO_WRAP)
+//    }
+    fun compressBitmap(inputBitmap: Bitmap, quality: Int): Bitmap {
+        val outputStream = ByteArrayOutputStream()
+        inputBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 }

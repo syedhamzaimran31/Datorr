@@ -3,6 +3,7 @@ package com.example.taskclass.Fragments
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -33,6 +34,7 @@ import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.Circle
 import com.github.ybq.android.spinkit.style.WanderingCubes
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -177,14 +179,19 @@ class ProFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
 
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
+
+            val myPhoto= imageBitmap?.let { compressBitmap(it,100) }
             val proImageView: ImageView? = view?.findViewById(R.id.proImage)
 
-            proImageView?.setImageBitmap(imageBitmap)
-            image = generateUniqueImageName()
+            proImageView?.setImageBitmap(myPhoto)
+            image= myPhoto.toString()
+//            image = generateUniqueImageName()
+
         }
     }
 
@@ -240,14 +247,21 @@ class ProFragment : Fragment() {
         }
     }
 
-    fun generateUniqueImageName(): String {
-        // Use timestamp to ensure uniqueness
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+//    fun generateUniqueImageName(): String {
+//        // Use timestamp to ensure uniqueness
+//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+//
+//        // Generate a unique identifier (UUID) to further ensure uniqueness
+//        val uniqueId = UUID.randomUUID().toString()
+//
+//        // Combine timestamp and unique identifier to create a unique name
+//        return "IMG_$timeStamp$uniqueId.jpg"
+//    }
 
-        // Generate a unique identifier (UUID) to further ensure uniqueness
-        val uniqueId = UUID.randomUUID().toString()
-
-        // Combine timestamp and unique identifier to create a unique name
-        return "IMG_$timeStamp$uniqueId.jpg"
+    fun compressBitmap(inputBitmap: Bitmap, quality: Int): Bitmap {
+        val outputStream = ByteArrayOutputStream()
+        inputBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 }

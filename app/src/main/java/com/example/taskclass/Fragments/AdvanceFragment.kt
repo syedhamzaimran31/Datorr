@@ -33,12 +33,10 @@ import com.example.taskclass.room.AppDatabase
 import com.example.taskclass.room.DatabaseBuilder
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.Circle
-import com.github.ybq.android.spinkit.style.WanderingCubes
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.util.UUID
+import java.io.ByteArrayOutputStream
+import java.io.FileDescriptor
+import java.io.IOException
 
 class AdvanceFragment : Fragment() {
 
@@ -53,8 +51,8 @@ class AdvanceFragment : Fragment() {
     private var documentUpload_3: ImageView? = null
     private var documentUpload_4: ImageView? = null
 
-    private val image_1: String? = generateUniqueImageName()
-    private val image_2: String? = generateUniqueImageName()
+    private var image_1: String? = null
+    private var image_2: String? = null
     private var image_3: String? = null
     private var image_4: String? = null
     private var passingYear: String? = (null).toString()
@@ -153,10 +151,11 @@ class AdvanceFragment : Fragment() {
         if (requestCode == picId_1 && resultCode == Activity.RESULT_OK) {
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
-
+            val myPhoto = imageBitmap?.let { compressBitmap(it, 100) }
             val documetUpload_1: ImageView? = view?.findViewById(R.id.document_1)
 
-            documetUpload_1?.setImageBitmap(imageBitmap)
+            documetUpload_1?.setImageBitmap(myPhoto)
+            image_1 = myPhoto.toString()
 
         }
         if (requestCode == picId_2 && resultCode == Activity.RESULT_OK) {
@@ -164,38 +163,36 @@ class AdvanceFragment : Fragment() {
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
 
+            val myPhoto = imageBitmap?.let { compressBitmap(it, 100) }
+
             // Assuming you have an ImageView in your layout with the ID cnicBackImageView
             val documenUpload_2: ImageView? = view?.findViewById(R.id.document_2)
 
             // Set the captured image on your ImageView
-            documenUpload_2?.setImageBitmap(imageBitmap)
+            documenUpload_2?.setImageBitmap(myPhoto)
 
+            image_2 = myPhoto.toString()
         }
         if (requestCode == picId_3 && resultCode == Activity.RESULT_OK) {
             if (data != null && data.data != null) {
                 val imageUri = data.data
-                image_3 = "$imageUri.jpg".toString()
-                try {
-                    val inputStream = requireContext().contentResolver.openInputStream(imageUri!!)
-                    val photo = BitmapFactory.decodeStream(inputStream)
-                    documentUpload_3?.setImageBitmap(photo)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                val bitmap = uriToBitmap(imageUri!!)
+                val myPhoto = bitmap?.let { compressBitmap(it, 100) }
+                documentUpload_3?.setImageBitmap(myPhoto)
+                image_3 = myPhoto.toString()
+
             } else {
                 // Handle case where data is null
             }
         } else if (requestCode == picId_4 && resultCode == Activity.RESULT_OK) {
             if (data != null && data.data != null) {
+
                 val imageUri = data.data
-                image_4 = "$imageUri.jpg".toString()
-                try {
-                    val inputStream = requireContext().contentResolver.openInputStream(imageUri!!)
-                    val photo = BitmapFactory.decodeStream(inputStream)
-                    documentUpload_4?.setImageBitmap(photo)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                val bitmap = uriToBitmap(imageUri!!)
+                val myPhoto = bitmap?.let { compressBitmap(it, 100) }
+                documentUpload_4?.setImageBitmap(myPhoto)
+                image_4 = myPhoto.toString()
+
             } else {
                 // Handle case where data is null
             }
@@ -336,15 +333,38 @@ class AdvanceFragment : Fragment() {
         TextViewAdvance.text = mSpannableString
     }
 
-    fun generateUniqueImageName(): String {
-        // Use timestamp to ensure uniqueness
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+    //No usage
+    //    fun generateUniqueImageName(): String {
+//        // Use timestamp to ensure uniqueness
+//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+//
+//        // Generate a unique identifier (UUID) to further ensure uniqueness
+//        val uniqueId = UUID.randomUUID().toString()
+//
+//        // Combine timestamp and unique identifier to create a unique name
+//        return "IMG_$timeStamp$uniqueId.jpg"
+//    }
+    fun compressBitmap(inputBitmap: Bitmap, quality: Int): Bitmap {
+        val outputStream = ByteArrayOutputStream()
+        inputBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
 
-        // Generate a unique identifier (UUID) to further ensure uniqueness
-        val uniqueId = UUID.randomUUID().toString()
 
-        // Combine timestamp and unique identifier to create a unique name
-        return "IMG_$timeStamp$uniqueId.jpg"
+    private fun uriToBitmap(selectedFileUri: Uri): Bitmap? {
+        try {
+            val parcelFileDescriptor =
+                requireContext().contentResolver.openFileDescriptor(selectedFileUri, "r")
+            val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
+            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+            parcelFileDescriptor.close()
+            return image
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
     }
 }
+
 

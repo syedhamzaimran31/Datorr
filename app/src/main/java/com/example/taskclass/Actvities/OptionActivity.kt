@@ -74,6 +74,12 @@ class OptionActivity : AppCompatActivity() {
                     finishAffinity();
                     true
                 }
+                R.id.summary -> {
+                    val intent= Intent(applicationContext,summaryActivity::class.java)
+                    startActivity(intent)
+                    finishAffinity();
+                    true
+                }
 
                 else -> false
             }

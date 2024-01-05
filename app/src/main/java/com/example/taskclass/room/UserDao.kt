@@ -26,4 +26,13 @@ interface UserDao {
 
     @Query("SELECT * FROM FemaleActivityData")
     suspend fun getAllFemales(): List<FemaleActivityData>
+
+    @Query("SELECT * FROM Basic")
+    suspend fun getAllBasic(): List<Basic>
+
+    @Query("SELECT * FROM Advance")
+    suspend fun getAllAdvance(): List<Advance>
+    @Query("SELECT * FROM Pro")
+    suspend fun getAllPro(): List<Pro>
+
 }

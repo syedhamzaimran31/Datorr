@@ -58,10 +58,12 @@ class CustomAdapter(private val mList: List<ItemsViewModel>, private val databas
                     2 -> {
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
+
                                 val userListMale: List<MaleActivityData> = database.userDao().getAllMales()
                                 val userListFemale: List<FemaleActivityData> = database.userDao().getAllFemales()
 
                                 withContext(Dispatchers.Main) {
+
                                     Log.d("CustomAdapter", "User List Male Size: ${userListMale.size}")
                                     Log.d("CustomAdapter", "User List Female Size: ${userListFemale.size}")
 
@@ -71,6 +73,7 @@ class CustomAdapter(private val mList: List<ItemsViewModel>, private val databas
                                         holder.itemView.context.startActivity(intent)
 
                                     } else {
+
                                         Toast.makeText(
                                             holder.itemView.context,
                                             "Fill at least one form",
@@ -83,6 +86,7 @@ class CustomAdapter(private val mList: List<ItemsViewModel>, private val databas
                             } catch (e: Exception) {
                                 e.printStackTrace()
                                 Log.e("CustomAdapter", "An error occurred: ${e.message}", e)
+
                                 withContext(Dispatchers.Main) {
                                     Toast.makeText(
                                         holder.itemView.context,

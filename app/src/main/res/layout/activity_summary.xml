@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Actvities.summaryActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                >
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/userDetailsTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/hind_madurai_semibold"
+                    android:text="User Details"
+                    android:textAlignment="center"
+                    android:textSize="35sp"
+                    android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/emailEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:fontFamily="@font/hind_madurai_semibold"
+                        android:text="Email : "
+                        android:textSize="25sp"
+                        android:textStyle="italic"
+
+                        >
+
+                    </com.google.android.material.textview.MaterialTextView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/emailUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/hind_madurai_semibold"
+                        android:text="syedhamzaimran3@gmail.com "
+                        android:padding="3dp"
+                        android:textSize="15sp"
+                        android:textStyle="italic">
+
+                    </com.google.android.material.textview.MaterialTextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/nameTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:fontFamily="@font/hind_madurai_semibold"
+                        android:text="Password : "
+                        android:textSize="25sp"
+                        android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/nameUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:fontFamily="@font/hind_madurai_semibold"
+                        android:text="123456"
+                        android:textSize="20sp"
+                        android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+                </LinearLayout>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/formDetailsTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:fontFamily="@font/hind_madurai_semibold"
+                    android:text="Form Details"
+                    android:textAlignment="center"
+                    android:textSize="35sp"
+                    android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/maleForm"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/hind_madurai_semibold"
+                            android:text="Male Form"
+                            android:textSize="20sp"
+                            android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/maleFormCount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/hind_madurai_semibold"
+                            android:text="3"
+                            android:textSize="25sp"
+                            android:textAlignment="center"
+                            android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/femaleForm"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/hind_madurai_semibold"
+                            android:text="Female Form"
+                            android:textSize="20sp"
+                            android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/femaleFormCount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/hind_madurai_semibold"
+                            android:text="10"
+                            android:textAlignment="center"
+                            android:textSize="25sp"
+                            android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/advanceForm"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/hind_madurai_semibold"
+                            android:text="Advance Form"
+                            android:textSize="20sp"
+                            android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/advanceFormCount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/hind_madurai_semibold"
+                            android:text="20"
+                            android:textSize="25sp"
+                            android:textAlignment="center"
+                            android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/Basic"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/hind_madurai_semibold"
+                                android:text="Basic"
+                                android:textSize="20sp"
+                                android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/basicCount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/hind_madurai_semibold"
+                                android:text="3"
+                                android:textSize="25sp"
+                                android:textStyle="italic"
+                                android:textAlignment="center"
+                                ></com.google.android.material.textview.MaterialTextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/Advance"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/hind_madurai_semibold"
+                                android:text="Advance"
+                                android:textSize="20sp"
+                                android:textStyle="italic"
+                                ></com.google.android.material.textview.MaterialTextView>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/advanceCount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/hind_madurai_semibold"
+                                android:text="10"
+                                android:textSize="25sp"
+                                android:textAlignment="center"
+                                android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/Pro"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/hind_madurai_semibold"
+                                android:text="Pro"
+                                android:textSize="20sp"
+                                android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/proCount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/hind_madurai_semibold"
+                                android:text="20"
+                                android:textSize="25sp"
+                                android:textAlignment="center"
+                                android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+</RelativeLayout>

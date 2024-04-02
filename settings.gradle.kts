@@ -15,5 +15,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TaskClass"
+rootProject.name = "Datorr"
 include(":app")

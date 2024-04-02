@@ -45,18 +45,20 @@
         <activity
             android:name=".Actvities.OptionActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Actvities.DashBoard"
             android:exported="false" />
         <activity
             android:name=".Actvities.loginActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Actvities.signUpActivity"
             android:exported="false" />

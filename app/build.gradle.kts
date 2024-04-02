@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.taskclass"
+    namespace = "com.example.Datorr"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.taskclass"
+        applicationId = "com.example.Datorr"
         minSdk = 22
         targetSdk = 33
         versionCode = 1

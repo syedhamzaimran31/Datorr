@@ -63,7 +63,7 @@
                         android:fontFamily="@font/hind_madurai_semibold"
                         android:text="syedhamzaimran3@gmail.com "
                         android:padding="3dp"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="italic">
 
                     </com.google.android.material.textview.MaterialTextView>
@@ -75,7 +75,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/nameTv"
+                        android:id="@+id/passTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
@@ -85,12 +85,13 @@
                         android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/nameUser"
+                        android:id="@+id/passUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
+                        android:padding="5dp"
+                        android:layout_marginHorizontal="8dp"
                         android:fontFamily="@font/hind_madurai_semibold"
-                        android:text="123456"
+                        android:text="123"
                         android:textSize="20sp"
                         android:textStyle="italic"></com.google.android.material.textview.MaterialTextView>
                 </LinearLayout>
